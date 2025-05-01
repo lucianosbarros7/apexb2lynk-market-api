@@ -16,6 +16,11 @@ const symbols = {
 };
 
 module.exports = async (req, res) => {
+  // 🚨 HEADERS DE CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   const now = Date.now();
   if (cache && now - lastFetch < CACHE_DURATION) {
     return res.status(200).json(cache);
@@ -38,6 +43,9 @@ module.exports = async (req, res) => {
     return res.status(200).json(results);
 
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao buscar dados de mercado', details: error.message });
+    return res.status(500).json({
+      error: 'Erro ao buscar dados de mercado',
+      details: error.message
+    });
   }
 };
